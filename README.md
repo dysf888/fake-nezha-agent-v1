@@ -9,6 +9,20 @@
   <p>:trollface:帮助你在哪吒探针中快速装逼,拥有整个地球的算力! </b></p>
 </div>
 
+config example:
+```yaml
+fake: true
+version: 6.6.6
+arch: taishan64
+platform: "HarmonyOS NEXT"
+disktotal: 219902325555200
+memtotal: 549755813888
+diskmultiple: 10
+memmultiple: 20
+networkmultiple: 1000
+```
+
+
 ## Contributors
 
 <!--GAMFC_DELIMITER--><a href="https://github.com/naiba" title="naiba"><img src="https://private-avatars.githubusercontent.com/u/29243953?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2MjIzMjAsIm5iZiI6MTczNDYyMTEyMCwicGF0aCI6Ii91LzI5MjQzOTUzIn0.rwVx1tPtpcOWYkG18k8qE2a1wKAzEQt-_RnEb4laXKE&v=4" width="50;" alt="naiba"/></a>
