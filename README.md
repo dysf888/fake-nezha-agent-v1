@@ -14,6 +14,8 @@
 
 ![example](.github/example.webp)
 
+关闭自动更新：disable_auto_update: true ！！！
+
 config example:
 ```yaml
 fake: true
