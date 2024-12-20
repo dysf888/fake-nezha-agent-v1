@@ -100,10 +100,13 @@ func GetHost() *model.Host {
 		ret.BootTime = hi.BootTime
 	}
 
-	// ctxCpu := context.WithValue(context.Background(), cpu.CPUHostKey, cpuType)
-	// ret.CPU = tryHost(ctxCpu, CPU, cpu.GetHost)
-	ret.CPU = []string{"HUAWEI Kirin 9000m 256 Physical Core"}
-
+	if agentConfig.Fake && len(agentConfig.CPU) > 0 {
+		ret.CPU = []string{agentConfig.CPU}
+	}else{
+		ctxCpu := context.WithValue(context.Background(), cpu.CPUHostKey, cpuType)
+		ret.CPU = tryHost(ctxCpu, CPU, cpu.GetHost)
+	}
+	
 	if agentConfig.GPU {
 		ret.GPU = tryHost(context.Background(), GPU, gpu.GetHost)
 	}
