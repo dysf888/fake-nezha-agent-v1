@@ -1,6 +1,13 @@
-# Nezha Agent
-  
-Agent of Nezha Monitoring
+<div align="center">
+  <br>
+  <h1 align="center" style="color:red"> Fake Nezha Agent V1</h1>
+  <h2>origin :  https://github.com/nezhahq/agent</h2>
+  <br><br>
+<img src="https://img.shields.io/github/v/release/dysf888/fake-nezha-agent-v1?color=brightgreen&label=Fake-Nezha-Agent&style=for-the-badge&logo=github">&nbsp;<img src="https://img.shields.io/badge/Installer-v1.0.0-brightgreen?style=for-the-badge&logo=linux">
+  <br>
+  <br>
+  <p>:trollface:帮助你在哪吒探针中快速装逼,拥有整个地球的算力! </b></p>
+</div>
 
 ## Contributors
 
