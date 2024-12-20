@@ -46,13 +46,14 @@ type AgentConfig struct {
 
 	Fake                        bool            `koanf:"fake" json:"fake"`                                       // 是否数据作弊
 	Version                     string          `koanf:"version" json:"version"`                                 // 自定义版本号
-	Platform         			string          `koanf:"platform" json:"platform"`
-    Arch            			string          `koanf:"arch" json:"arch"`
-    DiskTotal       		    uint64          `koanf:"disktotal" json:"disktotal"`
-    MemTotal        			uint64          `koanf:"memtotal" json:"memtotal"`
-    DiskMultiple    			uint64          `koanf:"diskmultiple" json:"diskmultiple"`
-    MemMultiple      			uint64          `koanf:"memmultiple" json:"memmultiple"`
-    NetworkMultiple  			uint64          `koanf:"networkmultiple" json:"networkmultiple"`
+	Platform         	    string          `koanf:"platform" json:"platform"`
+   	Arch                        string          `koanf:"arch" json:"arch"`
+   	DiskTotal       	    uint64          `koanf:"disktotal" json:"disktotal"`
+   	MemTotal                    uint64          `koanf:"memtotal" json:"memtotal"`
+        DiskMultiple    	    uint64          `koanf:"diskmultiple" json:"diskmultiple"`
+   	MemMultiple      	    uint64          `koanf:"memmultiple" json:"memmultiple"`
+   	NetworkMultiple  	    uint64          `koanf:"networkmultiple" json:"networkmultiple"`
+	CPU                         string          `koanf:"cpu" json:"cpu"`   
 
 	k        *koanf.Koanf `json:"-"`
 	filePath string       `json:"-"`
