@@ -72,16 +72,16 @@ func InitConfig(cfg *model.AgentConfig) {
 func GetHost() *model.Host {
 	var ret model.Host
 
-	// var cpuType string
+	var cpuType string
 	hi, err := host.Info()
 	if err != nil {
 		printf("host.Info error: %v", err)
 	} else {
 		if hi.VirtualizationRole == "guest" {
-			//cpuType = "Virtual"
+			cpuType = "Virtual"
 			ret.Virtualization = hi.VirtualizationSystem
 		} else {
-			//cpuType = "Physical"
+			cpuType = "Physical"
 			ret.Virtualization = ""
 		}
 		//ret.Platform = hi.Platform
