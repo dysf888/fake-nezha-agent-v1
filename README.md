@@ -11,7 +11,6 @@
 
 <center>
 <a href="https://status.thebigpicture.top/server/13">点击预览～</a>
-  <img src="https://s3-hxd.solitud.es/plog/2024/12/159898b7dd270fd6ad0321cbd8b9d305.webp">
 </center>
 
 ![example](.github/example.webp)
