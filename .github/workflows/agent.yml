@@ -106,11 +106,3 @@ jobs:
         with:
           artifacts: "checksums.txt,assets/*/*.zip"
           generateReleaseNotes: true
-
-      - name: Trigger sync
-        env:
-          GH_REPO: ${{ github.repository }}
-          GH_TOKEN: ${{ github.token }}
-          GH_DEBUG: api
-        run: |
-          gh workflow run sync-release.yml
