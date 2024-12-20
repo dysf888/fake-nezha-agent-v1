@@ -7,11 +7,10 @@
   <br>
   <br>
   <p>:trollface:帮助你在哪吒探针中快速装逼,拥有整个地球的算力! </b></p>
+  <h1><a href="https://status.thebigpicture.top/server/13">点击预览～</a></h1>
 </div>
 
-<center>
-<a href="https://status.thebigpicture.top/server/13">点击预览～</a>
-</center>
+
 
 ![example](.github/example.webp)
 
