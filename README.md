@@ -19,6 +19,7 @@ config example:
 fake: true
 version: 6.6.6
 arch: taishan64
+cpu: "HUAWEI Kirin 9000sm 256 Physical Core"
 platform: "HarmonyOS NEXT"
 disktotal: 219902325555200
 memtotal: 549755813888
