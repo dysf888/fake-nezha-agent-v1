@@ -14,7 +14,7 @@
 
 ![example](.github/example.webp)
 
-关闭自动更新：disable_auto_update: true ！！！
+  <h1 align="center" style="color:red"> 务必关闭自动更新：disable_auto_update: true ！！！</h1>
 
 config example:
 ```yaml
