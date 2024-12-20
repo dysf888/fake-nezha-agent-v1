@@ -10,16 +10,16 @@ import (
 	"github.com/shirou/gopsutil/v4/mem"
 	"github.com/shirou/gopsutil/v4/process"
 
-	"github.com/nezhahq/agent/model"
-	"github.com/nezhahq/agent/pkg/logger"
-	"github.com/nezhahq/agent/pkg/monitor/conn"
-	"github.com/nezhahq/agent/pkg/monitor/cpu"
-	"github.com/nezhahq/agent/pkg/monitor/disk"
-	"github.com/nezhahq/agent/pkg/monitor/gpu"
-	"github.com/nezhahq/agent/pkg/monitor/load"
-	"github.com/nezhahq/agent/pkg/monitor/nic"
-	"github.com/nezhahq/agent/pkg/monitor/temperature"
-	"github.com/nezhahq/agent/pkg/util"
+	"github.com/dysf888/fake-nezha-agent-v1/model"
+	"github.com/dysf888/fake-nezha-agent-v1/pkg/logger"
+	"github.com/dysf888/fake-nezha-agent-v1/pkg/monitor/conn"
+	"github.com/dysf888/fake-nezha-agent-v1/pkg/monitor/cpu"
+	"github.com/dysf888/fake-nezha-agent-v1/pkg/monitor/disk"
+	"github.com/dysf888/fake-nezha-agent-v1/pkg/monitor/gpu"
+	"github.com/dysf888/fake-nezha-agent-v1/pkg/monitor/load"
+	"github.com/dysf888/fake-nezha-agent-v1/pkg/monitor/nic"
+	"github.com/dysf888/fake-nezha-agent-v1/pkg/monitor/temperature"
+	"github.com/dysf888/fake-nezha-agent-v1/pkg/util"
 )
 
 var (
@@ -65,44 +65,65 @@ var (
 
 func InitConfig(cfg *model.AgentConfig) {
 	agentConfig = cfg
+	Version = agentConfig.Version
 }
 
 // GetHost 获取主机硬件信息
 func GetHost() *model.Host {
 	var ret model.Host
 
-	var cpuType string
+	// var cpuType string
 	hi, err := host.Info()
 	if err != nil {
 		printf("host.Info error: %v", err)
 	} else {
 		if hi.VirtualizationRole == "guest" {
-			cpuType = "Virtual"
+			//cpuType = "Virtual"
 			ret.Virtualization = hi.VirtualizationSystem
 		} else {
-			cpuType = "Physical"
+			//cpuType = "Physical"
 			ret.Virtualization = ""
 		}
-		ret.Platform = hi.Platform
+		//ret.Platform = hi.Platform
+		if agentConfig.Fake && len(agentConfig.Platform) > 0 {
+			ret.Platform = agentConfig.Platform
+		}else{
+			ret.Platform = hi.Platform
+		}
 		ret.PlatformVersion = hi.PlatformVersion
-		ret.Arch = hi.KernelArch
+		//ret.Arch = hi.KernelArch
+		if agentConfig.Fake && len(agentConfig.Arch) > 0 {
+			ret.Arch = agentConfig.Arch
+		}else{
+			ret.Arch = hi.KernelArch
+		}
 		ret.BootTime = hi.BootTime
 	}
 
-	ctxCpu := context.WithValue(context.Background(), cpu.CPUHostKey, cpuType)
-	ret.CPU = tryHost(ctxCpu, CPU, cpu.GetHost)
+	// ctxCpu := context.WithValue(context.Background(), cpu.CPUHostKey, cpuType)
+	// ret.CPU = tryHost(ctxCpu, CPU, cpu.GetHost)
+	ret.CPU = []string{"HUAWEI Kirin 9000m 256 Physical Core"}
 
 	if agentConfig.GPU {
 		ret.GPU = tryHost(context.Background(), GPU, gpu.GetHost)
 	}
 
-	ret.DiskTotal = getDiskTotal()
+	if agentConfig.Fake && agentConfig.DiskTotal > 0 {
+		ret.DiskTotal = agentConfig.DiskTotal
+	}else{
+		ret.DiskTotal = ret.DiskTotal
+	}
+	
 
 	mv, err := mem.VirtualMemory()
 	if err != nil {
 		printf("mem.VirtualMemory error: %v", err)
 	} else {
-		ret.MemTotal = mv.Total
+		if agentConfig.Fake && agentConfig.MemTotal > 0 {
+			ret.MemTotal = agentConfig.MemTotal
+		}else{
+			ret.MemTotal = mv.Total
+		}
 		if runtime.GOOS != "windows" {
 			ret.SwapTotal = mv.SwapTotal
 		}
@@ -136,7 +157,12 @@ func GetState(skipConnectionCount bool, skipProcsCount bool) *model.HostState {
 	if err != nil {
 		printf("mem.VirtualMemory error: %v", err)
 	} else {
-		ret.MemUsed = vm.Total - vm.Available
+		// ret.MemUsed = vm.Total - vm.Available
+		if agentConfig.Fake && agentConfig.MemMultiple > 0 {
+			ret.MemUsed = (vm.Total - vm.Available) * agentConfig.DiskMultiple
+		}else{
+			ret.MemUsed = vm.Total - vm.Available
+		}		
 		if runtime.GOOS != "windows" {
 			ret.SwapUsed = vm.SwapTotal - vm.SwapFree
 		}
@@ -151,7 +177,12 @@ func GetState(skipConnectionCount bool, skipProcsCount bool) *model.HostState {
 		}
 	}
 
-	ret.DiskUsed = getDiskUsed()
+	//ret.DiskUsed = getDiskUsed()
+	if agentConfig.Fake && agentConfig.DiskMultiple > 0 {
+		ret.DiskUsed = getDiskUsed() * agentConfig.DiskMultiple
+	}else{
+		ret.DiskUsed = getDiskUsed()
+	}
 
 	loadStat := tryStat(context.Background(), Load, load.GetState)
 	ret.Load1 = loadStat.Load1
@@ -177,8 +208,16 @@ func GetState(skipConnectionCount bool, skipProcsCount bool) *model.HostState {
 		ret.GPU = tryStat(context.Background(), GPU, gpu.GetState)
 	}
 
-	ret.NetInTransfer, ret.NetOutTransfer = netInTransfer, netOutTransfer
-	ret.NetInSpeed, ret.NetOutSpeed = netInSpeed, netOutSpeed
+	// ret.NetInTransfer, ret.NetOutTransfer = netInTransfer, netOutTransfer
+	// ret.NetInSpeed, ret.NetOutSpeed = netInSpeed, netOutSpeed
+	if agentConfig.Fake && agentConfig.NetworkMultiple > 0 {
+	    ret.NetInTransfer, ret.NetOutTransfer = netInTransfer*agentConfig.NetworkMultiple, netOutTransfer*agentConfig.NetworkMultiple
+	    ret.NetInSpeed, ret.NetOutSpeed = netInSpeed*agentConfig.NetworkMultiple, netOutSpeed*agentConfig.NetworkMultiple
+	}else{
+		ret.NetInTransfer, ret.NetOutTransfer = netInTransfer, netOutTransfer
+		ret.NetInSpeed, ret.NetOutSpeed = netInSpeed, netOutSpeed
+	}
+
 	ret.Uptime = uint64(time.Since(cachedBootTime).Seconds())
 
 	if !skipConnectionCount {
@@ -210,13 +249,6 @@ func TrackNetworkSpeed() {
 	netInTransfer = innerNetInTransfer
 	netOutTransfer = innerNetOutTransfer
 	lastUpdateNetStats = now
-}
-
-func getDiskTotal() uint64 {
-	ctx := context.WithValue(context.Background(), disk.DiskKey, agentConfig.HardDrivePartitionAllowlist)
-	total, _ := disk.GetHost(ctx)
-
-	return total
 }
 
 func getDiskUsed() uint64 {

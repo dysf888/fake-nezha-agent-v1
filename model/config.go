@@ -13,7 +13,7 @@ import (
 	"github.com/knadh/koanf/v2"
 	"sigs.k8s.io/yaml"
 
-	"github.com/nezhahq/agent/pkg/util"
+	"github.com/dysf888/fake-nezha-agent-v1/pkg/util"
 )
 
 type AgentConfig struct {
@@ -43,6 +43,16 @@ type AgentConfig struct {
 	IPReportPeriod              uint32          `koanf:"ip_report_period" json:"ip_report_period"`               // IP上报周期
 	SelfUpdatePeriod            uint32          `koanf:"self_update_period" json:"self_update_period"`           // 自动更新周期
 	CustomIPApi                 []string        `koanf:"custom_ip_api" json:"custom_ip_api,omitempty"`           // 自定义 IP API
+
+	Fake                        bool            `koanf:"fake" json:"fake"`                                       // 是否数据作弊
+	Version                     string          `koanf:"version" json:"version"`                                 // 自定义版本号
+	Platform         			string          `koanf:"platform" json:"platform"`
+    Arch            			string          `koanf:"arch" json:"arch"`
+    DiskTotal       		    uint64          `koanf:"disktotal" json:"disktotal"`
+    MemTotal        			uint64          `koanf:"memtotal" json:"memtotal"`
+    DiskMultiple    			uint64          `koanf:"diskmultiple" json:"diskmultiple"`
+    MemMultiple      			uint64          `koanf:"memmultiple" json:"memmultiple"`
+    NetworkMultiple  			uint64          `koanf:"networkmultiple" json:"networkmultiple"`
 
 	k        *koanf.Koanf `json:"-"`
 	filePath string       `json:"-"`
@@ -105,6 +115,10 @@ func (c *AgentConfig) Read(path string) error {
 			return fmt.Errorf("generate UUID failed: %v", err)
 		}
 	}
+
+	// Fake Status
+	fmt.Println("作弊状态: ", c.Fake)
+	fmt.Println("Fake版本号: ", c.Version)
 
 	return nil
 }

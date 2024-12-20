@@ -6,7 +6,7 @@ import (
 	"context"
 	"errors"
 
-	"github.com/nezhahq/agent/pkg/monitor/gpu/vendor"
+	"github.com/dysf888/fake-nezha-agent-v1/pkg/monitor/gpu/vendor"
 )
 
 const (

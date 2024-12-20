@@ -1,4 +1,4 @@
-module github.com/nezhahq/agent
+module github.com/dysf888/fake-nezha-agent-v1
 
 go 1.20
 

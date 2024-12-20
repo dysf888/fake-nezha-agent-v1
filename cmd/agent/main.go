@@ -34,20 +34,20 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/grpc/resolver"
 
-	"github.com/nezhahq/agent/cmd/agent/commands"
-	"github.com/nezhahq/agent/model"
-	fm "github.com/nezhahq/agent/pkg/fm"
-	"github.com/nezhahq/agent/pkg/logger"
-	"github.com/nezhahq/agent/pkg/monitor"
-	"github.com/nezhahq/agent/pkg/processgroup"
-	"github.com/nezhahq/agent/pkg/pty"
-	"github.com/nezhahq/agent/pkg/util"
-	utlsx "github.com/nezhahq/agent/pkg/utls"
-	pb "github.com/nezhahq/agent/proto"
+	"github.com/dysf888/fake-nezha-agent-v1/cmd/agent/commands"
+	"github.com/dysf888/fake-nezha-agent-v1/model"
+	fm "github.com/dysf888/fake-nezha-agent-v1/pkg/fm"
+	"github.com/dysf888/fake-nezha-agent-v1/pkg/logger"
+	"github.com/dysf888/fake-nezha-agent-v1/pkg/monitor"
+	"github.com/dysf888/fake-nezha-agent-v1/pkg/processgroup"
+	"github.com/dysf888/fake-nezha-agent-v1/pkg/pty"
+	"github.com/dysf888/fake-nezha-agent-v1/pkg/util"
+	utlsx "github.com/dysf888/fake-nezha-agent-v1/pkg/utls"
+	pb "github.com/dysf888/fake-nezha-agent-v1/proto"
 )
 
 var (
-	version               = monitor.Version // 来自于 GoReleaser 的版本号
+	version               string // 来自于 GoReleaser 的版本号
 	arch                  string
 	executablePath        string
 	defaultConfigPath     = loadDefaultConfigPath()
@@ -172,7 +172,6 @@ func preRun(configPath string) error {
 func main() {
 	app := &cli.App{
 		Usage:   "哪吒监控 Agent",
-		Version: version,
 		Flags: []cli.Flag{
 			&cli.StringFlag{Name: "config", Aliases: []string{"c"}, Usage: "配置文件路径"},
 		},
@@ -186,9 +185,15 @@ func main() {
 					return err
 				}
 			}
+			if agentConfig.Fake && len(agentConfig.Version) > 0 {
+				version = agentConfig.Version
+			}else{
+				version = "1.2.0"
+			}
 			runService("", "")
 			return nil
 		},
+		Version: version,
 		Commands: []*cli.Command{
 			{
 				Name:  "edit",

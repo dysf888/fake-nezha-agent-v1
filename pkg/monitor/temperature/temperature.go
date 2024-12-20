@@ -7,8 +7,8 @@ import (
 
 	"github.com/shirou/gopsutil/v4/sensors"
 
-	"github.com/nezhahq/agent/model"
-	"github.com/nezhahq/agent/pkg/util"
+	"github.com/dysf888/fake-nezha-agent-v1/model"
+	"github.com/dysf888/fake-nezha-agent-v1/pkg/util"
 )
 
 var sensorIgnoreList = []string{

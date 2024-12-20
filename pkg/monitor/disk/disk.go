@@ -9,7 +9,7 @@ import (
 
 	psDisk "github.com/shirou/gopsutil/v4/disk"
 
-	"github.com/nezhahq/agent/pkg/util"
+	"github.com/dysf888/fake-nezha-agent-v1/pkg/util"
 )
 
 type DiskKeyType string

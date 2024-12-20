@@ -11,7 +11,7 @@ import (
 	"github.com/shirou/gopsutil/v4/disk"
 	psnet "github.com/shirou/gopsutil/v4/net"
 
-	"github.com/nezhahq/agent/model"
+	"github.com/dysf888/fake-nezha-agent-v1/model"
 )
 
 // 修改Agent要监控的网卡与硬盘分区
@@ -81,6 +81,13 @@ func EditAgentConfig(configPath string, agentConfig *model.AgentConfig) {
 			},
 		},
 		{
+			Name: "fake",
+			Prompt: &survey.Confirm{
+				Message: "是否开启数据作弊？",
+				Default: false,
+			},
+		},
+		{
 			Name: "temperature",
 			Prompt: &survey.Confirm{
 				Message: "是否启用温度监控？",
@@ -101,6 +108,7 @@ func EditAgentConfig(configPath string, agentConfig *model.AgentConfig) {
 		Disk        []string `mapstructure:"hard_drive_partition_allowlist" json:"hard_drive_partition_allowlist"`
 		DNS         string   `mapstructure:"dns" json:"dns"`
 		GPU         bool     `mapstructure:"gpu" json:"gpu"`
+		Fake        bool     `mapstructure:"fake" json:"fake"`   
 		Temperature bool     `mapstructure:"temperature" json:"temperature"`
 		Debug       bool     `mapstructure:"debug" json:"debug"`
 		UUID        string   `mapstructure:"uuid" json:"uuid"`
@@ -142,6 +150,7 @@ func EditAgentConfig(configPath string, agentConfig *model.AgentConfig) {
 	}
 
 	agentConfig.GPU = answers.GPU
+	agentConfig.Fake = answers.Fake
 	agentConfig.Temperature = answers.Temperature
 	agentConfig.Debug = answers.Debug
 	agentConfig.UUID = answers.UUID
