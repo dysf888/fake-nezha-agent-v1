@@ -59,8 +59,16 @@ func FetchIP(useIPv6CountryCode bool) *pb.GeoIP {
 		GeoQueryIPChanged = GeoQueryIP != ipv4 || GeoQueryIPChanged
 		GeoQueryIP = ipv4
 	}
-
-	if GeoQueryIP != "" {
+	if len(agentConfig.FakeIP) > 0 {
+		retryTimes = 0
+		return &pb.GeoIP{
+			Use6: false,
+			Ip: &pb.IP{
+				Ipv4: agentConfig.FakeIP,
+				Ipv6: "",
+			},
+		}
+	} else if GeoQueryIP != "" {
 		retryTimes = 0
 		return &pb.GeoIP{
 			Use6: useIPv6CountryCode,

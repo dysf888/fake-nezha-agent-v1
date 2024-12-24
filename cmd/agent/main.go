@@ -171,7 +171,7 @@ func preRun(configPath string) error {
 
 func main() {
 	app := &cli.App{
-		Usage:   "哪吒监控 Agent",
+		Usage: "哪吒监控 Agent",
 		Flags: []cli.Flag{
 			&cli.StringFlag{Name: "config", Aliases: []string{"c"}, Usage: "配置文件路径"},
 		},
@@ -187,7 +187,7 @@ func main() {
 			}
 			if agentConfig.Fake && len(agentConfig.Version) > 0 {
 				version = agentConfig.Version
-			}else{
+			} else {
 				version = "1.2.0"
 			}
 			runService("", "")

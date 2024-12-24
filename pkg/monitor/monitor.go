@@ -87,14 +87,14 @@ func GetHost() *model.Host {
 		//ret.Platform = hi.Platform
 		if agentConfig.Fake && len(agentConfig.Platform) > 0 {
 			ret.Platform = agentConfig.Platform
-		}else{
+		} else {
 			ret.Platform = hi.Platform
 		}
 		ret.PlatformVersion = hi.PlatformVersion
 		//ret.Arch = hi.KernelArch
 		if agentConfig.Fake && len(agentConfig.Arch) > 0 {
 			ret.Arch = agentConfig.Arch
-		}else{
+		} else {
 			ret.Arch = hi.KernelArch
 		}
 		ret.BootTime = hi.BootTime
@@ -102,21 +102,20 @@ func GetHost() *model.Host {
 
 	if agentConfig.Fake && len(agentConfig.CPU) > 0 {
 		ret.CPU = []string{agentConfig.CPU}
-	}else{
+	} else {
 		ctxCpu := context.WithValue(context.Background(), cpu.CPUHostKey, cpuType)
 		ret.CPU = tryHost(ctxCpu, CPU, cpu.GetHost)
 	}
-	
+
 	if agentConfig.GPU {
 		ret.GPU = tryHost(context.Background(), GPU, gpu.GetHost)
 	}
 
 	if agentConfig.Fake && agentConfig.DiskTotal > 0 {
 		ret.DiskTotal = agentConfig.DiskTotal
-	}else{
-		ret.DiskTotal = ret.DiskTotal
+	} else {
+		ret.DiskTotal = getDiskUsed()
 	}
-	
 
 	mv, err := mem.VirtualMemory()
 	if err != nil {
@@ -124,7 +123,7 @@ func GetHost() *model.Host {
 	} else {
 		if agentConfig.Fake && agentConfig.MemTotal > 0 {
 			ret.MemTotal = agentConfig.MemTotal
-		}else{
+		} else {
 			ret.MemTotal = mv.Total
 		}
 		if runtime.GOOS != "windows" {
@@ -163,9 +162,9 @@ func GetState(skipConnectionCount bool, skipProcsCount bool) *model.HostState {
 		// ret.MemUsed = vm.Total - vm.Available
 		if agentConfig.Fake && agentConfig.MemMultiple > 0 {
 			ret.MemUsed = (vm.Total - vm.Available) * agentConfig.DiskMultiple
-		}else{
+		} else {
 			ret.MemUsed = vm.Total - vm.Available
-		}		
+		}
 		if runtime.GOOS != "windows" {
 			ret.SwapUsed = vm.SwapTotal - vm.SwapFree
 		}
@@ -183,7 +182,7 @@ func GetState(skipConnectionCount bool, skipProcsCount bool) *model.HostState {
 	//ret.DiskUsed = getDiskUsed()
 	if agentConfig.Fake && agentConfig.DiskMultiple > 0 {
 		ret.DiskUsed = getDiskUsed() * agentConfig.DiskMultiple
-	}else{
+	} else {
 		ret.DiskUsed = getDiskUsed()
 	}
 
@@ -214,9 +213,9 @@ func GetState(skipConnectionCount bool, skipProcsCount bool) *model.HostState {
 	// ret.NetInTransfer, ret.NetOutTransfer = netInTransfer, netOutTransfer
 	// ret.NetInSpeed, ret.NetOutSpeed = netInSpeed, netOutSpeed
 	if agentConfig.Fake && agentConfig.NetworkMultiple > 0 {
-	    ret.NetInTransfer, ret.NetOutTransfer = netInTransfer*agentConfig.NetworkMultiple, netOutTransfer*agentConfig.NetworkMultiple
-	    ret.NetInSpeed, ret.NetOutSpeed = netInSpeed*agentConfig.NetworkMultiple, netOutSpeed*agentConfig.NetworkMultiple
-	}else{
+		ret.NetInTransfer, ret.NetOutTransfer = netInTransfer*agentConfig.NetworkMultiple, netOutTransfer*agentConfig.NetworkMultiple
+		ret.NetInSpeed, ret.NetOutSpeed = netInSpeed*agentConfig.NetworkMultiple, netOutSpeed*agentConfig.NetworkMultiple
+	} else {
 		ret.NetInTransfer, ret.NetOutTransfer = netInTransfer, netOutTransfer
 		ret.NetInSpeed, ret.NetOutSpeed = netInSpeed, netOutSpeed
 	}

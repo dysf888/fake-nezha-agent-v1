@@ -1,0 +1,40 @@
+name: Fetch and Process IP Data
+
+on:
+  schedule:
+    - cron: '0 0 */3 * *' 
+  workflow_dispatch:
+
+jobs:
+  fetch-and-process:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install ipaddress uuid
+
+    - name: Download and decompress IP data
+      run: |
+        curl -o country.json.gz https://ipinfo.io/data/free/country.json.gz?token=${{ secrets.IPINFO_TOKEN }}
+        gzip -d country.json.gz
+
+    - name: Process IP data
+      run: |
+        python scripts/process_ip_data.py
+
+    - name: Commit fakeip.json
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add fakeip.json
+        git commit -m "Update fakeip.json" || echo "No changes to commit"
+        git push

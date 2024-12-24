@@ -44,16 +44,17 @@ type AgentConfig struct {
 	SelfUpdatePeriod            uint32          `koanf:"self_update_period" json:"self_update_period"`           // 自动更新周期
 	CustomIPApi                 []string        `koanf:"custom_ip_api" json:"custom_ip_api,omitempty"`           // 自定义 IP API
 
-	Fake                        bool            `koanf:"fake" json:"fake"`                                       // 是否数据作弊
-	Version                     string          `koanf:"version" json:"version"`                                 // 自定义版本号
-	Platform         	    string          `koanf:"platform" json:"platform"`
-   	Arch                        string          `koanf:"arch" json:"arch"`
-   	DiskTotal       	    uint64          `koanf:"disktotal" json:"disktotal"`
-   	MemTotal                    uint64          `koanf:"memtotal" json:"memtotal"`
-        DiskMultiple    	    uint64          `koanf:"diskmultiple" json:"diskmultiple"`
-   	MemMultiple      	    uint64          `koanf:"memmultiple" json:"memmultiple"`
-   	NetworkMultiple  	    uint64          `koanf:"networkmultiple" json:"networkmultiple"`
-	CPU                         string          `koanf:"cpu" json:"cpu"`   
+	Fake            bool   `koanf:"fake" json:"fake"`       // 是否数据作弊
+	Version         string `koanf:"version" json:"version"` // 自定义版本号
+	Platform        string `koanf:"platform" json:"platform"`
+	Arch            string `koanf:"arch" json:"arch"`
+	DiskTotal       uint64 `koanf:"disktotal" json:"disktotal"`
+	MemTotal        uint64 `koanf:"memtotal" json:"memtotal"`
+	DiskMultiple    uint64 `koanf:"diskmultiple" json:"diskmultiple"`
+	MemMultiple     uint64 `koanf:"memmultiple" json:"memmultiple"`
+	NetworkMultiple uint64 `koanf:"networkmultiple" json:"networkmultiple"`
+	CPU             string `koanf:"cpu" json:"cpu"`
+	FakeIP          string `koanf:"ip" json:"ip"`
 
 	k        *koanf.Koanf `json:"-"`
 	filePath string       `json:"-"`

@@ -8,9 +8,9 @@ on:
       - main
     paths-ignore:
       - ".github/workflows/agent.yml"
-      - ".github/workflows/codeql-analysis.yml"
-      - ".github/workflows/test.yml"
-      - ".github/workflows/contributors.yml"
+      - ".github/workflows/globeip.yml"
+      - "scripts/globeip.yml"
+      - "fakeip.json"
       - "README.md"
       - ".goreleaser.yml"
   pull_request:
@@ -78,14 +78,14 @@ jobs:
           args: build --single-target --clean
 
       - name: Archive
-        run: zip -jr dist/nezha-agent_${GOOS}_${GOARCH}.zip dist/*/*
+        run: zip -jr dist/nezha-agent-fake_${GOOS}_${GOARCH}.zip dist/*/*
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: nezha-agent_${{ env.GOOS }}_${{ env.GOARCH }}
+          name: nezha-agent-fake_${{ env.GOOS }}_${{ env.GOARCH }}
           path: |
-            ./dist/nezha-agent_${{ env.GOOS }}_${{ env.GOARCH }}.zip
+            ./dist/nezha-agent-fake_${{ env.GOOS }}_${{ env.GOARCH }}.zip
 
   release:
     runs-on: ubuntu-latest
