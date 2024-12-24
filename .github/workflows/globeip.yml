@@ -29,7 +29,7 @@ jobs:
 
     - name: Process IP data
       run: |
-        python scripts/process_ip_data.py
+        python scripts/globeip.py
 
     - name: Commit fakeip.json
       run: |
