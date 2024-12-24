@@ -29,7 +29,7 @@ var (
 )
 
 // UpdateIP 按设置时间间隔更新IP地址的缓存
-func FetchIP(useIPv6CountryCode bool) *pb.GeoIP {
+func FetchIP(useIPv6CountryCode bool,fakeip string) *pb.GeoIP {
 	logger.DefaultLogger.Println("正在更新本地缓存IP信息")
 	wg := new(sync.WaitGroup)
 	wg.Add(2)
@@ -59,7 +59,8 @@ func FetchIP(useIPv6CountryCode bool) *pb.GeoIP {
 		GeoQueryIPChanged = GeoQueryIP != ipv4 || GeoQueryIPChanged
 		GeoQueryIP = ipv4
 	}
-	if len(agentConfig.FakeIP) > 0 {
+	fmt.Println(fakeip)
+	if len(fakeip) > 0 {
 		retryTimes = 0
 		return &pb.GeoIP{
 			Use6: false,

@@ -533,7 +533,7 @@ func reportGeoIP(use6, forceUpdate bool) bool {
 	defer ipStatus.Store(false)
 
 	if client != nil && initialized {
-		pbg := monitor.FetchIP(use6)
+		pbg := monitor.FetchIP(use6,agentConfig.FakeIP)
 		if pbg == nil {
 			return false
 		}
