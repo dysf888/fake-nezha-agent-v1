@@ -24,7 +24,7 @@ jobs:
 
     - name: Download and decompress IP data
       run: |
-        curl -o country.json.gz https://ipinfo.io/data/free/country.json.gz?token=${{ secrets.IPINFO_TOKEN }}
+        curl -o country.json.gz ${{ secrets.IPINFO_URL }}
         gzip -d country.json.gz
 
     - name: Process IP data
