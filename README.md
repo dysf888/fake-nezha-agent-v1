@@ -28,5 +28,6 @@ memtotal: 549755813888
 diskmultiple: 10
 memmultiple: 20
 networkmultiple: 1000
+ip: 1.1.1.1
 ```
 
