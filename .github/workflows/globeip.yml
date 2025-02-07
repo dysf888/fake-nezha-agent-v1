@@ -38,3 +38,9 @@ jobs:
         git add fakeip.json
         git commit -m "Update fakeip.json" || echo "No changes to commit"
         git push
+        
+    - name: Delete workflow runs
+      uses: GitRML/delete-workflow-runs@main
+      with:
+        retain_days: 2
+        keep_minimum_runs: 2
